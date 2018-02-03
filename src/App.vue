@@ -6,6 +6,9 @@
     <main>
       <router-view></router-view>
     </main>
+    <footer>
+      Proudly brought to you by <a href="https://aiwebstudio.com" target="_blank">Active Improvement Web Studio</a>
+    </footer>
   </div>
 </template>
 
@@ -20,39 +23,44 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+$main-bg-color: #f0f0f0;
+$header-bg-color: darkblue;
+$footer-bg-color: lightblue;
+
+
+html {
+  height: 100%;
+}
+
 body {
-  margin: 0;
+  background-color: $main-bg-color;
+  font-family: 'verdana';
+  text-rendering: optimizeLegibility;
+  padding: 0px;
+  margin: 0px;
 }
 
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-
-main {
-  text-align: center;
-  margin-top: 40px;
+button:hover {
+  cursor: pointer;
 }
 
 header {
-  margin: 0;
-  height: 56px;
-  padding: 0 16px 0 24px;
-  background-color: #35495E;
-  color: #ffffff;
+  background-color: $header-bg-color;
+  padding: 5px;
+  color: white;
 }
 
-header span {
-  display: block;
-  position: relative;
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: .02em;
-  font-weight: 400;
-  box-sizing: border-box;
-  padding-top: 16px;
+footer {
+  background-color: $footer-bg-color;
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  bottom: 0px;
+  padding: 5px 0px;
+}
+
+a:hover {
+  text-decoration: none;
 }
 </style>
