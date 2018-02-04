@@ -1,12 +1,17 @@
 <template>
   <v-toolbar>
-    <v-toolbar-title>{{ appName }}</v-toolbar-title>
+    <!-- App Name, top left -->
+    <v-toolbar-title>
+      <router-link :to="menuHome" router tag="span" class="clickable">{{ appName }}</router-link>
+    </v-toolbar-title>
     <v-spacer />
 
+    <!-- Hamburger, top right -->
     <v-toolbar-side-icon class="hidden-md-and-up" />
 
+    <!-- Menu items, top right -->
     <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn flat v-for="(menuItem, i) of menuItems" :key="i">
+      <v-btn flat v-for="(menuItem, i) of menuItems" :key="i" :to="menuItem.link" router>
         <v-icon left>{{ menuItem.icon }}</v-icon>{{ menuItem.title }}
       </v-btn>
     </v-toolbar-items>
@@ -21,9 +26,10 @@ export default {
   },
   data () {
     return {
+      menuHome: '/',
       menuItems: [
-        { icon: 'smartphone', title: 'Share' },
-        { icon: 'close', title: 'Close' }
+        { icon: 'smartphone', title: 'Share', link: '/note' },
+        { icon: 'search', title: 'Search', link: '/note' }
       ]
     }
   }

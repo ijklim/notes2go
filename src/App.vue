@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app light>
     <app-navbar v-bind='{appName}' />
     
     <v-content>
@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import AppNavbar from './components/layouts/AppNavbar'
-import AppFooter from './components/layouts/AppFooter'
+import AppNavbar from '@/components/layouts/AppNavbar'
+import AppFooter from '@/components/layouts/AppFooter'
 
 export default {
   name: 'app',
@@ -29,7 +29,9 @@ export default {
 </script>
 
 <style lang="scss">
-button:hover {
+button:hover,
+.clickable:hover {
   cursor: pointer;
 }
 </style>
+
