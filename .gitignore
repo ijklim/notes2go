@@ -4,7 +4,7 @@ node_modules/
 *.log*
 
 # Editor directories and files
-.idea
+.idea*
 *.suo
 *.ntvs*
 *.njsproj
