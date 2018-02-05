@@ -5,6 +5,8 @@
 ## Technologies
 * Vue.js 2.0
 * [Vuetify](https://vuetifyjs.com)
+* [Vuelidate](https://github.com/monterail/vuelidate)
+* Vuex
 
 ## Build Setup
 
