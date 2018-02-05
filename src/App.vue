@@ -16,14 +16,16 @@ import AppFooter from '@/components/layouts/AppFooter'
 
 export default {
   name: 'app',
-  components: {
-    AppNavbar,
-    AppFooter
-  },
+
   data () {
     return {
       appName: 'notes2go'
     }
+  },
+
+  components: {
+    AppNavbar,
+    AppFooter
   }
 }
 </script>
@@ -34,4 +36,3 @@ button:hover,
   cursor: pointer;
 }
 </style>
-
