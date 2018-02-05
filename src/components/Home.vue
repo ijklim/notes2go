@@ -1,23 +1,24 @@
 <template>
   <v-container grid-list-lg>
     <v-layout row wrap justify-center>
-      <v-flex xs6 sm3>
-        <v-btn large success block>New Note</v-btn>
-      </v-flex>
-      <v-flex xs6 sm3>
-        <v-btn large info block>Search Note</v-btn>
-      </v-flex>
+      <note-form />
     </v-layout>
   </v-container>
 </template>
 
 <script>
+import NoteForm from '@/components/NoteForm'
+
 export default {
-  name: 'home',
+  name: 'Home',
+
   data () {
     return {
-      msg: 'Welcome to Your Vue.js PWA'
     }
+  },
+
+  components: {
+    NoteForm
   }
 }
 </script>
