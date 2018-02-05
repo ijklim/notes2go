@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar>
+  <v-toolbar class="yellow lighten-4">
     <!-- App Name, top left -->
     <v-toolbar-title>
       <router-link :to="menuHome" router tag="span" class="clickable">{{ appName }}</router-link>
