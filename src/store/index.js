@@ -17,6 +17,13 @@ Vue.use(Vuex)
  * - If key is blank, view only, mutation not allowed
  * - Otherwise id and key must match for update to proceed, ensure code is unique
 */
+const DEFAULT_SNACKBAR_SETTINGS = {
+  backgroundColor: 'default',
+  color: 'white',
+  icon: '',
+  text: '',
+  timeout: 3000
+}
 
 const state = {
   // System generated
@@ -25,7 +32,8 @@ const state = {
   // User input
   code: '',
   notes: '',
-  snackbarText: ''
+  defaultSnackbarSettings: Object.assign({}, DEFAULT_SNACKBAR_SETTINGS),
+  snackbarSettings: Object.assign({}, DEFAULT_SNACKBAR_SETTINGS)
 }
 
 export default new Vuex.Store({

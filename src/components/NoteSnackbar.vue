@@ -1,13 +1,14 @@
 <template>
   <v-snackbar
-    :color="snackbarBackgroundColor"
-    :timeout="timeout"
+    :color="snackbarSettings.backgroundColor"
+    :timeout="snackbarSettings.timeout"
     :bottom="true"
     :right="true"
     v-model="showSnackbar"
   >
-    {{ snackbarText }}
-    <v-btn flat :color="snackbarTextColor" @click.native="snackbar = false">Close</v-btn>
+    <span v-if="snackbarSettings.icon">{{ snackbarSettings.icon }}</span>
+    {{ snackbarSettings.text }}
+    <v-btn flat :color="snackbarSettings.color" @click.native="showSnackbar = false">Close</v-btn>
   </v-snackbar>
 </template>
 
@@ -15,35 +16,22 @@
   export default {
     name: 'NoteSnackbar',
 
-    props: {
-      valid: {
-        type: Boolean,
-        default: true
-      }
-    },
-
     data () {
       return {
-        snackbarBackgroundColor: 'primary',
-        snackbarTextColor: 'white',
-        timeout: 1500
       }
     },
     computed: {
-      snackbarText () {
-        return this.$store.state.snackbarText
+      snackbarSettings () {
+        return this.$store.state.snackbarSettings
       },
       showSnackbar: {
         get: function () {
-          return this.$store.state.snackbarText !== ''
+          return this.snackbarSettings.text !== ''
         },
         set: function (newValue) {
           this.$store.commit('closeSnackbar')
         }
       }
-    },
-
-    mounted () {
     }
   }
 </script>
