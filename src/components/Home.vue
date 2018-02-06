@@ -2,12 +2,14 @@
   <v-container grid-list-lg>
     <v-layout row wrap justify-center>
       <note-form />
+      <note-snackbar />
     </v-layout>
   </v-container>
 </template>
 
 <script>
 import NoteForm from '@/components/NoteForm'
+import NoteSnackbar from '@/components/NoteSnackbar'
 
 export default {
   name: 'Home',
@@ -18,7 +20,8 @@ export default {
   },
 
   components: {
-    NoteForm
+    NoteForm,
+    NoteSnackbar
   }
 }
 </script>
