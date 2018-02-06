@@ -18,7 +18,7 @@
         @input="$v.notes.$touch()"
         :rows="10"
       ></v-text-field>
-      <v-btn block @click="submit" large class="success">
+      <v-btn block @click="submit" large class="success" :disabled='disableSaveButton'>
         <v-icon left>backup</v-icon>
         Save
       </v-btn>
@@ -57,9 +57,18 @@
       submit () {
         this.$v.$touch()
 
+        // Failed validation
         if (this.$v.$invalid) return
 
-        this.$router.push('/notes')
+        // Save form data
+        let payload = {
+          id: this.id,
+          notes: this.notes
+        }
+        this.$store.commit('submitFormNote', payload)
+
+        // Reset dirty flag
+        this.$v.$reset()
       }
     },
 
@@ -76,7 +85,27 @@
         if (!this.$v.notes.$dirty) return errors
         !this.$v.notes.required && errors.push('Notes field should not be blank.')
         return errors
+      },
+      disableSaveButton () {
+        if (this.$v.$invalid) return true
+
+        // Loop through all properties in params to retrieve field names
+        // If any field is dirty, enable Save button
+        for (let property in this.$v.$params) {
+          if (this.$v[property].$dirty) return false
+        }
+
+        // Form is clean
+        return true
       }
+    },
+
+    watch: {
+    },
+
+    mounted () {
+      this.id = this.$store.state.id
+      this.notes = this.$store.state.notes
     }
   }
 </script>
