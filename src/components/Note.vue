@@ -1,6 +1,8 @@
 <template>
   <div>
-    snackbar color: {{ color }}
+    <p>snackbar color: {{ color }}</p>
+    <p>snackbar new color: {{ color2 }}</p>
+    <p>snackbar default color: {{ color3 }}</p>
   </div>
 </template>
 
@@ -18,7 +20,9 @@
     data () {
       return {
         show: true,
-        color: 'blue'
+        color: 'blue',
+        color2: 'green',
+        color3: 'black'
       }
     },
     computed: {
@@ -37,8 +41,12 @@
     },
 
     mounted () {
-      // this.color = this.$snackbar.color
-      console.log(this.$snackbar)
+      this.color = this.$snackbar.get('color')
+      this.$snackbar.set('color', 'pink')
+      this.color2 = this.$snackbar.get('color')
+      this.$snackbar.reset()
+      this.color3 = this.$snackbar.get('color')
+      // console.log('ttt', this.$snackbar.get('ttt'))
     }
   }
 </script>
