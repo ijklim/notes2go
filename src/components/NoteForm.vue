@@ -129,7 +129,7 @@ export default {
 
   mounted () {
     // All fields get defaults from Vuex store
-    for (let field in this._data) {
+    for (let field in this.$data) {
       this[field] = this.$store.state[field]
     }
   }
