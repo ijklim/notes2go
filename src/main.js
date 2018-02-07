@@ -5,9 +5,11 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import store from './store'
+import snackbar from './modules/snackbar'
 import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)
+Vue.use(snackbar)
 
 Vue.config.productionTip = false
 
@@ -16,6 +18,7 @@ new Vue({
   el: '#app',
   router,
   store,
+  snackbar,
   template: '<App/>',
   components: { App }
 })

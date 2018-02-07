@@ -1,6 +1,6 @@
 <template>
   <div>
-    Note
+    snackbar color: {{ color }}
   </div>
 </template>
 
@@ -17,7 +17,8 @@
 
     data () {
       return {
-        show: true
+        show: true,
+        color: 'blue'
       }
     },
     computed: {
@@ -36,7 +37,8 @@
     },
 
     mounted () {
-      console.log('Other lifecycle hooks: beforeCreate, created, beforeMount, beforeUpdate, updated, beforeDestroy, destroyed')
+      // this.color = this.$snackbar.color
+      console.log(this.$snackbar)
     }
   }
 </script>
