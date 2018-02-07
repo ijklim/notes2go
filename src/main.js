@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
-import store from './store'
+import makeStore from './store'
 import makeSnackbar from './modules/snackbar'
 import 'vuetify/dist/vuetify.min.css'
 
@@ -12,6 +12,7 @@ Vue.use(Vuetify)
 
 // Inject Vue, replace the need to import Vue into snackbar, dependencies are also clearer
 const snackbar = makeSnackbar(Vue)
+const store = makeStore(snackbar)
 
 Vue.config.productionTip = false
 

@@ -5,6 +5,7 @@
  */
 class Snackbar {
   constructor () {
+    this.isVisible = false
     this.reset()
   }
 
@@ -25,6 +26,7 @@ class Snackbar {
    * @return {*}
    */
   get (property) {
+    // if (property === 'isVisible') return this.isVisible
     if (this.hasOwnProperty('_' + property)) return this['_' + property]
     return null
   }
@@ -41,6 +43,26 @@ class Snackbar {
       return true
     }
     return false
+  }
+
+  /**
+   * Show snackbar
+   */
+  show () {
+    this.isVisible = true
+    if (this.get('timeout') > 0) {
+      setTimeout(() => {
+        this.hide()
+      }, this.get('timeout'))
+    }
+  }
+
+  /**
+   * Hide snackbar and reset settings
+   */
+  hide () {
+    this.isVisible = false
+    this.reset()
   }
 }
 

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import * as getters from './getters'
-import * as mutations from './mutations'
+import makeMutations from './mutations'
 
 Vue.use(Vuex)
 
@@ -17,13 +17,6 @@ Vue.use(Vuex)
  * - If key is blank, view only, mutation not allowed
  * - Otherwise id and key must match for update to proceed, ensure code is unique
 */
-const DEFAULT_SNACKBAR_SETTINGS = {
-  backgroundColor: 'default',
-  color: 'white',
-  icon: '',
-  text: '',
-  timeout: 3000
-}
 
 const state = {
   // System generated
@@ -31,13 +24,13 @@ const state = {
   key: '',
   // User input
   code: '',
-  notes: '',
-  defaultSnackbarSettings: Object.assign({}, DEFAULT_SNACKBAR_SETTINGS),
-  snackbarSettings: Object.assign({}, DEFAULT_SNACKBAR_SETTINGS)
+  notes: ''
 }
 
-export default new Vuex.Store({
-  state,
-  getters,
-  mutations
-})
+export default function makeStore (snackbar) {
+  return new Vuex.Store({
+    state,
+    getters,
+    mutations: makeMutations(snackbar)
+  })
+}

@@ -1,14 +1,13 @@
 <template>
   <v-snackbar
-    :color="snackbarSettings.backgroundColor"
-    :timeout="snackbarSettings.timeout"
+    :color="snackbarSetting('backgroundColor')"
     :bottom="true"
     :right="true"
-    v-model="showSnackbar"
+    v-model="visible"
   >
-    <span v-if="snackbarSettings.icon">{{ snackbarSettings.icon }}</span>
-    {{ snackbarSettings.text }}
-    <v-btn flat :color="snackbarSettings.color" @click.native="showSnackbar = false">Close</v-btn>
+    <span v-if="snackbarSetting('icon')">{{ snackbarSetting('icon') }}</span>
+    {{ snackbarSetting('text') }}
+    <v-btn flat :color="snackbarSetting('color')" @click.native="visible = false">Close</v-btn>
   </v-snackbar>
 </template>
 
@@ -18,20 +17,24 @@
 
     data () {
       return {
+        visible: false
       }
     },
-    computed: {
-      snackbarSettings () {
-        return this.$store.state.snackbarSettings
-      },
-      showSnackbar: {
-        get: function () {
-          return this.snackbarSettings.text !== ''
-        },
-        set: function (newValue) {
-          this.$store.commit('closeSnackbar')
-        }
+    watch: {
+      visible: function (data) {
+        if (data === false) this.$snackbar.hide()
       }
+    },
+    methods: {
+      snackbarSetting (property) {
+        return this.$snackbar.get(property)
+      }
+    },
+    mounted () {
+      // Needed as this.$snackbar.isVisible cannot be monitored using computed value, with or without getter
+      setInterval(() => {
+        this.visible = this.$snackbar.isVisible
+      }, 100)
     }
   }
 </script>
