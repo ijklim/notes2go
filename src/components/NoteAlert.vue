@@ -1,19 +1,18 @@
 <template>
-  <v-snackbar
+  <v-alert
     :color="getSetting('backgroundColor')"
-    :bottom="true"
-    :right="true"
+    :dismissible="getSetting('dismissible')"
+    :icon="getSetting('icon')"
+    transition="fade-transition"
     v-model="visible"
   >
-    <span v-if="getSetting('icon')">{{ getSetting('icon') }}</span>
     {{ getSetting('text') }}
-    <v-btn flat :color="getSetting('color')" @click.native="visible = false">Close</v-btn>
-  </v-snackbar>
+  </v-alert>
 </template>
 
 <script>
   export default {
-    name: 'NoteSnackbar',
+    name: 'NoteAlert',
 
     data () {
       return {
@@ -22,18 +21,18 @@
     },
     watch: {
       visible: function (data) {
-        if (data === false) this.$snackbar.hide()
+        if (data === false) this.$alert.hide()
       }
     },
     methods: {
       getSetting (property) {
-        return this.$snackbar.get(property)
+        return this.$alert.get(property)
       }
     },
     mounted () {
       // Needed as this.$snackbar.isVisible cannot be monitored using computed value, with or without getter
       setInterval(() => {
-        this.visible = this.$snackbar.isVisible
+        this.visible = this.$alert.isVisible
       }, 100)
     }
   }

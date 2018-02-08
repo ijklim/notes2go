@@ -1,5 +1,6 @@
 class Actions {
-  constructor (snackbar) {
+  constructor (alert, snackbar) {
+    this.alert = alert
     this.snackbar = snackbar
   }
 
@@ -18,13 +19,18 @@ class Actions {
           this.snackbar.set('timeout', 1000)
           this.snackbar.show()
 
+          // Test alert
+          this.alert.set('text', 'hurrah~')
+          this.alert.set('timeout', 1000)
+          this.alert.show()
+
           context.commit('setLoadingFlag', false)
-        }, 3000)
+        }, 1500)
       }
     }
   }
 }
 
-export default function makeActions (snackbar) {
-  return new Actions(snackbar).export()
+export default function makeActions (alert, snackbar) {
+  return new Actions(alert, snackbar).export()
 }

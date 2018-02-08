@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12 sm10 mt-5>
+  <v-flex xs12 sm10 mt-2>
     <v-form>
       <input type="hidden" name="id" :value="id" />
       <v-text-field

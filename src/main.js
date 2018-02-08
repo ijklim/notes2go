@@ -10,23 +10,26 @@ import router from './router'
 import Vuetify from 'vuetify'
 import makeStore from './store'
 import makeSnackbar from './modules/snackbar'
+import makeAlert from './modules/alert'
 
 import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)
 
 // Inject Vue, replace the need to import Vue into snackbar, dependencies are also clearer
+const alert = makeAlert(Vue)
 const snackbar = makeSnackbar(Vue)
-const store = makeStore(Vue, snackbar)
+const store = makeStore(Vue, alert, snackbar)
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  alert,
   router,
-  store,
   snackbar,
+  store,
   template: '<App/>',
   components: { App },
   created () {
@@ -38,7 +41,7 @@ new Vue({
       storageBucket: process.env.FIREBASE_STORAGE_BUCKET
     })
     // console.log(firebase.SDK_VERSION)
-    console.log(firebase.database().ref())
+    // console.log(firebase.database().ref())
     // firebase.database.enableLogging(true)
   }
 })

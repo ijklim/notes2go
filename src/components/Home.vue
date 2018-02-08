@@ -1,6 +1,9 @@
 <template>
   <v-container grid-list-lg>
     <v-layout row wrap justify-center>
+      <v-flex xs12 sm10>
+        <note-alert />
+      </v-flex>
       <note-form />
       <note-snackbar />
     </v-layout>
@@ -8,6 +11,7 @@
 </template>
 
 <script>
+import NoteAlert from '@/components/NoteAlert'
 import NoteForm from '@/components/NoteForm'
 import NoteSnackbar from '@/components/NoteSnackbar'
 
@@ -20,6 +24,7 @@ export default {
   },
 
   components: {
+    NoteAlert,
     NoteForm,
     NoteSnackbar
   }

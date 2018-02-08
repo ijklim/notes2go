@@ -16,7 +16,7 @@ import makeMutations from './mutations'
  * - id > 0 and code exact match db, edit mode (get)
 */
 
-export default function makeStore (Vue, snackbar) {
+export default function makeStore (Vue, alert, snackbar) {
   const state = {
     // Form states
     mode: 'edit',
@@ -32,7 +32,7 @@ export default function makeStore (Vue, snackbar) {
 
   return new Vuex.Store({
     state,
-    actions: makeActions(snackbar),
+    actions: makeActions(alert, snackbar),
     getters,
     mutations: makeMutations()
   })
