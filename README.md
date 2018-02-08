@@ -10,28 +10,23 @@
 
 ## Build Setup
 
-1. Install depedencies using `npm` or `yarn`
+1.  Install depedencies using `npm` or `yarn`
 
-```bash
-npm install
-```
+        npm install
 
-or
+    or
 
-```bash
-yarn install
-```
+        yarn install
 
-1. serve with hot reload at localhost:8080
-```bash
-npm run dev
-```
+1.  Create Firebase account on https://firebase.google.com. Access **Console** and retrieve settings from **Web Setup**. Make a copy of `config/app.env.js.example` and name it `config/app.env.js`. Replace settings.
+ 
+1.  Serve with hot reload at localhost:8080
 
-or
+        npm run dev
 
-```bash
-yarn run dev
-```
+    or
+
+        yarn run dev
 
 
 ## Credits
