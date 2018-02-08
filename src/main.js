@@ -12,7 +12,7 @@ Vue.use(Vuetify)
 
 // Inject Vue, replace the need to import Vue into snackbar, dependencies are also clearer
 const snackbar = makeSnackbar(Vue)
-const store = makeStore(snackbar)
+const store = makeStore(Vue, snackbar)
 
 Vue.config.productionTip = false
 
