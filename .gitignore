@@ -4,7 +4,7 @@ node_modules/
 *.log*
 
 // Local configurations
-.env
+config/app.env.js
 
 # Editor directories and files
 .idea*
