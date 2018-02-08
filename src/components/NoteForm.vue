@@ -66,12 +66,12 @@ export default {
 
       // Save form data
       let payload = {
+        mode: this.mode,
         id: this.id,
-        key: this.key,
         code: this.formatCode(this.code),
         notes: this.notes
       }
-      this.$store.commit('submitFormNote', payload)
+      this.$store.dispatch('submitFormNote', payload)
 
       // Reset dirty flag of form
       this.$v.$reset()

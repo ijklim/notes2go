@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 
 import * as getters from './getters'
+import makeActions from './actions'
 import makeMutations from './mutations'
 
 /**
@@ -31,7 +32,8 @@ export default function makeStore (Vue, snackbar) {
 
   return new Vuex.Store({
     state,
+    actions: makeActions(snackbar),
     getters,
-    mutations: makeMutations(snackbar)
+    mutations: makeMutations()
   })
 }
