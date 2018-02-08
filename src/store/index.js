@@ -17,7 +17,9 @@ import makeMutations from './mutations'
 
 export default function makeStore (Vue, snackbar) {
   const state = {
+    // Form states
     mode: 'edit',
+    isLoading: false,
     // System generated
     id: 0,
     // User input

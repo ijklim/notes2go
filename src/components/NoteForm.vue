@@ -24,7 +24,7 @@
         block
         class="success"
         large
-        v-if="showSaveButton"
+        v-if="isSaveButtonVisible"
         :disabled='disableSaveButton'
         :loading="isSaving"
         @click="submit"
@@ -53,15 +53,13 @@ export default {
       mode: '',
       id: 0,
       code: '',
-      notes: '',
-      isSaving: false
+      notes: ''
     }
   },
 
   methods: {
     submit () {
       this.$v.$touch()
-      this.isSaving = true
 
       // Failed validation
       if (this.$v.$invalid) return
@@ -77,7 +75,6 @@ export default {
 
       // Reset dirty flag of form
       this.$v.$reset()
-      this.isSaving = false
     },
     onInputCode (value) {
       // Code must be lower case and without space
@@ -107,6 +104,14 @@ export default {
       !this.$v.notes.required && errors.push('Notes field should not be blank.')
       return errors
     },
+
+    isSaveButtonVisible () {
+      return (this.$store) ? this.$store.state.mode === 'edit' : false
+    },
+    isSaving () {
+      return (this.$store) ? this.$store.state.isLoading : false
+    },
+
     disableSaveButton () {
       if (this.$v.$invalid) return true
       if (this.isSaving) return true
@@ -118,12 +123,6 @@ export default {
       }
 
       // Form is clean
-      return true
-    },
-    showSaveButton () {
-      // Note is View only if id > 0 and key is blank
-      if (this.id > 0 && this.key === '') return false
-
       return true
     }
   },
