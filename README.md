@@ -10,16 +10,29 @@
 
 ## Build Setup
 
-``` bash
-# install dependencies
+1. Install depedencies using `npm` or `yarn`
+
+```bash
 npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
 ```
+
+or
+
+```bash
+yarn install
+```
+
+1. serve with hot reload at localhost:8080
+```bash
+npm run dev
+```
+
+or
+
+```bash
+yarn run dev
+```
+
 
 ## Credits
 
