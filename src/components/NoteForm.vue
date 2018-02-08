@@ -2,10 +2,10 @@
   <v-flex xs12 sm10 mt-5>
     <v-form>
       <input type="hidden" name="id" :value="id" />
-      <input type="hidden" name="key" :value="key" />
       <v-text-field
         label="Code"
         required
+        v-if="mode === 'edit'"
         v-model="code"
         :error-messages="errorsCode"
         @input="onInputCode"
@@ -37,21 +37,21 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
-import { required, maxLength } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'NoteForm',
 
   mixins: [validationMixin],
   validations: {
-    code: { required, maxLength: maxLength(30) },
+    code: { required, minLength: minLength(3), maxLength: maxLength(30) },
     notes: { required }
   },
 
   data () {
     return {
+      mode: '',
       id: 0,
-      key: '',
       code: '',
       notes: '',
       isSaving: false
@@ -96,6 +96,7 @@ export default {
     errorsCode () {
       const errors = []
       if (!this.$v.code.$dirty) return errors
+      !this.$v.code.minLength && errors.push(`Code must be at least ${this.$v.code.$params.minLength.min} characters long`)
       !this.$v.code.maxLength && errors.push(`Code must be at most ${this.$v.code.$params.maxLength.max} characters long`)
       !this.$v.code.required && errors.push('Code is required.')
       return errors
