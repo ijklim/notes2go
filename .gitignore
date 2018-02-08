@@ -3,7 +3,7 @@ node_modules/
 /dist/
 *.log*
 
-// Local configurations
+# Local configurations
 config/app.env.js
 
 # Editor directories and files
