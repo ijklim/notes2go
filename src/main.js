@@ -19,7 +19,7 @@ Vue.use(Vuetify)
 // Inject Vue, replace the need to import Vue into snackbar, dependencies are also clearer
 const alert = makeAlert(Vue)
 const snackbar = makeSnackbar(Vue)
-const store = makeStore(Vue, alert, snackbar)
+const store = makeStore(Vue, alert, firebase, snackbar)
 
 Vue.config.productionTip = false
 
@@ -40,8 +40,5 @@ new Vue({
       projectId: process.env.FIREBASE_PROJECT_ID,
       storageBucket: process.env.FIREBASE_STORAGE_BUCKET
     })
-    // console.log(firebase.SDK_VERSION)
-    // console.log(firebase.database().ref())
-    // firebase.database.enableLogging(true)
   }
 })

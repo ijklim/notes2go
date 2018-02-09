@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 
-import * as getters from './getters'
+import makeGetters from './getters'
 import makeActions from './actions'
 import makeMutations from './mutations'
 
@@ -16,13 +16,13 @@ import makeMutations from './mutations'
  * - id > 0 and code exact match db, edit mode (get)
 */
 
-export default function makeStore (Vue, alert, snackbar) {
+export default function makeStore (Vue, alert, firebase, snackbar) {
   const state = {
     // Form states
     mode: 'edit',
     isLoading: false,
     // System generated
-    id: 0,
+    id: '',
     // User input
     code: '',
     notes: ''
@@ -32,8 +32,8 @@ export default function makeStore (Vue, alert, snackbar) {
 
   return new Vuex.Store({
     state,
-    actions: makeActions(alert, snackbar),
-    getters,
+    actions: makeActions(alert, firebase, snackbar),
+    getters: makeGetters(),
     mutations: makeMutations()
   })
 }

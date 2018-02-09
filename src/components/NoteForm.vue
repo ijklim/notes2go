@@ -25,7 +25,7 @@
         class="success"
         large
         v-if="isSaveButtonVisible"
-        :disabled='disableSaveButton'
+        :disabled='isSaveButtonDisabled'
         :loading="isSaving"
         @click="submit"
       >
@@ -42,16 +42,17 @@ import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 export default {
   name: 'NoteForm',
 
+  // Min and Max Length rules need to be initialized even though they are set during mount event
   mixins: [validationMixin],
   validations: {
-    code: { required, minLength: minLength(3), maxLength: maxLength(30) },
+    code: { required, minLength: {}, maxLength: {} },
     notes: { required }
   },
 
   data () {
     return {
       mode: '',
-      id: 0,
+      id: '',
       code: '',
       notes: ''
     }
@@ -93,8 +94,8 @@ export default {
     errorsCode () {
       const errors = []
       if (!this.$v.code.$dirty) return errors
-      !this.$v.code.minLength && errors.push(`Code must be at least ${this.$v.code.$params.minLength.min} characters long`)
-      !this.$v.code.maxLength && errors.push(`Code must be at most ${this.$v.code.$params.maxLength.max} characters long`)
+      !this.$v.code.minLength && errors.push(`Code must be at least ${this.$store.getters.codeMinLength} characters long`)
+      !this.$v.code.maxLength && errors.push(`Code must be at most ${this.$store.getters.codeMaxLength} characters long`)
       !this.$v.code.required && errors.push('Code is required.')
       return errors
     },
@@ -105,14 +106,7 @@ export default {
       return errors
     },
 
-    isSaveButtonVisible () {
-      return (this.$store) ? this.$store.state.mode === 'edit' : false
-    },
-    isSaving () {
-      return (this.$store) ? this.$store.state.isLoading : false
-    },
-
-    disableSaveButton () {
+    isSaveButtonDisabled () {
       if (this.$v.$invalid) return true
       if (this.isSaving) return true
 
@@ -124,6 +118,12 @@ export default {
 
       // Form is clean
       return true
+    },
+    isSaveButtonVisible () {
+      return (this.$store) ? this.$store.state.mode === 'edit' : false
+    },
+    isSaving () {
+      return (this.$store) ? this.$store.state.isLoading : false
     }
   },
 
@@ -132,6 +132,10 @@ export default {
     for (let field in this.$data) {
       this[field] = this.$store.state[field]
     }
+
+    // Dynamically set min and max code length to keep logic in getters module
+    this.$options.validations.code.minLength = minLength(this.$store.getters.codeMinLength)
+    this.$options.validations.code.maxLength = maxLength(this.$store.getters.codeMaxLength)
   }
 }
 </script>
