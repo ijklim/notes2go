@@ -2,10 +2,10 @@
   <v-alert
     :color="getSetting('backgroundColor')"
     :dismissible="getSetting('dismissible')"
-    :icon="getSetting('icon')"
-    transition="fade-transition"
+    :transition="getSetting('transition')"
     v-model="visible"
   >
+    <v-icon :dark="getSetting('dark')" class="mr-2">{{ getSetting('icon') }}</v-icon>
     {{ getSetting('text') }}
   </v-alert>
 </template>

@@ -13,12 +13,13 @@ class Alert {
    * Revert properties to default values
    */
   reset () {
-    this._backgroundColor = 'error'
-    this._color = 'white'
+    this._backgroundColor = 'info'
+    this._dark = true
     this._dismissible = true
-    this._icon = 'warning'
+    this._icon = 'info'
     this._text = ''
     this._timeout = 0
+    this._transition = 'fade-transition'
   }
 
   /**
@@ -63,7 +64,10 @@ class Alert {
    */
   hide () {
     this.isVisible = false
-    this.reset()
+    setTimeout(() => {
+      // Without timeout alert will revert to default before it disappears
+      this.reset()
+    }, 500)
   }
 }
 
