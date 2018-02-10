@@ -14,7 +14,7 @@ class Snackbar {
    */
   reset () {
     this._backgroundColor = 'default'
-    this._color = 'white'
+    this._dismissButtonColor = 'white'
     this._dismissible = true
     this._icon = ''
     this._text = ''

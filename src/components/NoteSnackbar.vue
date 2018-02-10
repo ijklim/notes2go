@@ -5,12 +5,15 @@
     :right="getSetting('right')"
     :bottom="getSetting('bottom')"
     :left="getSetting('left')"
+    timeout="999999"
     v-model="visible"
   >
     <span v-if="getSetting('icon')" class="mr-3">{{ getSetting('icon') }}</span>
     {{ getSetting('text') }}
     <v-spacer />
-    <v-btn flat :color="getSetting('color')" @click.native="visible = false" v-if="getSetting('dismissible')">Close</v-btn>
+    <v-btn flat icon @click.native="visible = false" v-if="getSetting('dismissible')">
+      <v-icon :color="getSetting('dismissButtonColor')">cancel</v-icon>
+    </v-btn>
   </v-snackbar>
 </template>
 
