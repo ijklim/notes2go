@@ -18,11 +18,6 @@ import NoteSnackbar from '@/components/NoteSnackbar'
 export default {
   name: 'Home',
 
-  data () {
-    return {
-    }
-  },
-
   components: {
     NoteAlert,
     NoteForm,

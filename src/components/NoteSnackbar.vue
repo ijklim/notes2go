@@ -1,13 +1,16 @@
 <template>
   <v-snackbar
     :color="getSetting('backgroundColor')"
-    :bottom="true"
-    :right="true"
+    :top="getSetting('top')"
+    :right="getSetting('right')"
+    :bottom="getSetting('bottom')"
+    :left="getSetting('left')"
     v-model="visible"
   >
-    <span v-if="getSetting('icon')">{{ getSetting('icon') }}</span>
+    <span v-if="getSetting('icon')" class="mr-3">{{ getSetting('icon') }}</span>
     {{ getSetting('text') }}
-    <v-btn flat :color="getSetting('color')" @click.native="visible = false">Close</v-btn>
+    <v-spacer />
+    <v-btn flat :color="getSetting('color')" @click.native="visible = false" v-if="getSetting('dismissible')">Close</v-btn>
   </v-snackbar>
 </template>
 

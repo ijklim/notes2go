@@ -15,9 +15,16 @@ class Snackbar {
   reset () {
     this._backgroundColor = 'default'
     this._color = 'white'
+    this._dismissible = true
     this._icon = ''
     this._text = ''
     this._timeout = 3000
+
+    // Display position
+    this._top = true
+    this._right = true
+    this._bottom = false
+    this._left = false
   }
 
   /**
@@ -62,7 +69,10 @@ class Snackbar {
    */
   hide () {
     this.isVisible = false
-    this.reset()
+    setTimeout(() => {
+      // Without timeout snackbar will revert to default before it disappears
+      this.reset()
+    }, 500)
   }
 }
 
