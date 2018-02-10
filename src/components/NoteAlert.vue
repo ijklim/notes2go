@@ -5,7 +5,7 @@
     :transition="getSetting('transition')"
     v-model="visible"
   >
-    <v-icon :dark="getSetting('dark')" class="mr-2">{{ getSetting('icon') }}</v-icon>
+    <v-icon :dark="getSetting('iconDarkTheme')" class="mr-2">{{ getSetting('icon') }}</v-icon>
     {{ getSetting('text') }}
   </v-alert>
 </template>

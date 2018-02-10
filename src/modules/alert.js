@@ -14,7 +14,7 @@ class Alert {
    */
   reset () {
     this._backgroundColor = 'info'
-    this._dark = true
+    this._iconDarkTheme = true
     this._dismissible = true
     this._icon = 'info'
     this._text = ''
