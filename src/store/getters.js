@@ -1,11 +1,11 @@
 class Getters {
   // Code field validation rules: min length
-  codeMinLength () {
+  codeMinLength = () => {
     return 3
   }
 
   // Code field validation rules: max length
-  codeMaxLength () {
+  codeMaxLength = () => {
     return 30
   }
 

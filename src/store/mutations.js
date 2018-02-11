@@ -1,9 +1,9 @@
 class Mutations {
-  setLoadingFlag (state, value) {
+  setLoadingFlag = (state, value) => {
     state.isLoading = value
   }
 
-  saveFormNote (state, payload) {
+  saveFormNote = (state, payload) => {
     console.log(payload)
   }
 
