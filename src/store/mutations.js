@@ -1,12 +1,16 @@
 class Mutations {
+  setLoadingFlag (state, value) {
+    state.isLoading = value
+  }
+
+  saveFormNote (state, payload) {
+    console.log(payload)
+  }
+
   export () {
     return {
-      setLoadingFlag: (state, value) => {
-        state.isLoading = value
-      },
-      saveFormNote: (state, payload) => {
-        console.log(payload)
-      }
+      setLoadingFlag: this.setLoadingFlag,
+      saveFormNote: this.saveFormNote
     }
   }
 }

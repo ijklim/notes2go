@@ -1,13 +1,18 @@
 class Getters {
+  // Code field validation rules: min length
+  codeMinLength () {
+    return 3
+  }
+
+  // Code field validation rules: max length
+  codeMaxLength () {
+    return 30
+  }
+
   export () {
     return {
-      // Code field validation rules, min and max length
-      codeMinLength: () => {
-        return 3
-      },
-      codeMaxLength: () => {
-        return 30
-      }
+      codeMinLength: this.codeMinLength,
+      codeMaxLength: this.codeMaxLength
     }
   }
 }
