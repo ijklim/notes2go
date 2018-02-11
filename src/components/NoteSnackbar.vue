@@ -5,7 +5,7 @@
     :right="getSetting('right')"
     :bottom="getSetting('bottom')"
     :left="getSetting('left')"
-    timeout="999999"
+    :timeout="timeout"
     v-model="visible"
   >
     <span v-if="getSetting('icon')" class="mr-3">{{ getSetting('icon') }}</span>
@@ -23,6 +23,8 @@
 
     data () {
       return {
+        // Set timeout to large number, effectively disabling it, allows module to handle timeout function
+        timeout: 9999999,
         visible: false
       }
     },
