@@ -5948,9 +5948,9 @@ vuelidate@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.6.1.tgz#c52c9fd2b48f974613485e2cf51c182e84bcf747"
 
-vuetify@^0.17.7:
-  version "0.17.7"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.17.7.tgz#068c8210473643d45166ef9c5f6eb0ecf26bb5a5"
+vuetify@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.0.0.tgz#c21b133334e3f0115bb1bd839be88454cda3882b"
 
 vuex@^3.0.1:
   version "3.0.1"
