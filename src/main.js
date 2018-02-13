@@ -16,17 +16,19 @@ import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)
 
+// Filters
+// `code` should be in lower case, spaces replaced by .
+Vue.filter('formatCode', (value) => {
+  if (!value) return ''
+  return value.toLowerCase().replace(/ /g, '.')
+})
+
 // Inject Vue, replace the need to import Vue into snackbar, dependencies are also clearer
 const alert = makeAlert(Vue)
 const snackbar = makeSnackbar(Vue)
 const store = makeStore(Vue, alert, firebase, snackbar)
 
 Vue.config.productionTip = false
-
-Vue.filter('formatCode', (value) => {
-  if (!value) return ''
-  return value.toLowerCase().replace(' ', '.')
-})
 
 /* eslint-disable no-new */
 new Vue({
