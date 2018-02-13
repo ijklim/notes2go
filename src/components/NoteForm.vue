@@ -52,7 +52,6 @@ export default {
   data () {
     return {
       mode: '',
-      id: '',
       code: '',
       notes: ''
     }
@@ -91,6 +90,10 @@ export default {
   },
 
   computed: {
+    id () {
+      return (this.$store) ? this.$store.state.id : ''
+    },
+
     errorsCode () {
       const errors = []
       if (!this.$v.code.$dirty) return errors
