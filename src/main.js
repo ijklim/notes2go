@@ -23,6 +23,11 @@ const store = makeStore(Vue, alert, firebase, snackbar)
 
 Vue.config.productionTip = false
 
+Vue.filter('formatCode', (value) => {
+  if (!value) return ''
+  return value.toLowerCase().replace(' ', '.')
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

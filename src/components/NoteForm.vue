@@ -68,7 +68,7 @@ export default {
       let payload = {
         mode: this.mode,
         id: this.id,
-        code: this.formatCode(this.code),
+        code: this.$root.$options.filters.formatCode(this.code),
         notes: this.notes
       }
       this.$store.dispatch('submitFormNote', payload)
@@ -78,14 +78,10 @@ export default {
     },
     onInputCode (value) {
       // Code must be lower case and without space
-      this.code = this.formatCode(value)
+      this.code = this.$root.$options.filters.formatCode(value)
 
       // Set $dirty flag of code field
       this.$v.code.$touch()
-    },
-    formatCode (value) {
-      // Code must be lower case and without space
-      return value.toLowerCase().replace(' ', '.')
     }
   },
 
