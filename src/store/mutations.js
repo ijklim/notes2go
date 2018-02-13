@@ -3,14 +3,14 @@ class Mutations {
     state.isLoading = value
   }
 
-  saveFormNote = (state, payload) => {
-    console.log(payload)
+  set = (state, payload) => {
+    state[payload.property] = payload.value
   }
 
   export () {
     return {
       setLoadingFlag: this.setLoadingFlag,
-      saveFormNote: this.saveFormNote
+      set: this.set
     }
   }
 }

@@ -1,38 +1,45 @@
 <template>
   <v-alert
-    :color="getSetting('backgroundColor')"
-    :dismissible="getSetting('dismissible')"
-    :transition="getSetting('transition')"
-    v-model="visible"
+    :color="backgroundColor"
+    :dismissible="dismissible"
+    :transition="transition"
+    v-model="isVisible"
   >
-    <v-icon :dark="getSetting('iconDarkTheme')" class="mr-2">{{ getSetting('icon') }}</v-icon>
-    {{ getSetting('text') }}
+    <v-icon :dark="iconDarkTheme" class="mr-2">{{ icon }}</v-icon>
+    {{ text }}
   </v-alert>
 </template>
 
 <script>
+  const alertProperties = {
+    backgroundColor: '',
+    dismissible: false,
+    icon: '',
+    iconDarkTheme: false,
+    text: '',
+    transition: '',
+    isVisible: false
+  }
+
   export default {
     name: 'NoteAlert',
 
     data () {
       return {
-        visible: false
+        ...alertProperties
       }
     },
     watch: {
-      visible: function (data) {
+      isVisible: function (data) {
         if (data === false) this.$alert.hide()
       }
     },
-    methods: {
-      getSetting (property) {
-        return this.$alert.get(property)
-      }
-    },
     mounted () {
-      // Needed as this.$snackbar.isVisible cannot be monitored using computed value, with or without getter
+      // Needed as this.$alert.isVisible cannot be monitored using computed value, with or without getter
       setInterval(() => {
-        this.visible = this.$alert.isVisible
+        for (let property in alertProperties) {
+          this[property] = this.$alert.get(property)
+        }
       }, 100)
     }
   }

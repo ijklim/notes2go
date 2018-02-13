@@ -3,23 +3,31 @@
  * (c) 2018 Ivan Lim
  * @license MIT
  */
+const defaultProperties = {
+  backgroundColor: 'info',
+  dismissible: true,
+  icon: 'info',
+  iconDarkTheme: true,
+  resetTimeout: 500,
+  text: '',
+  timeout: 0,
+  transition: 'fade-transition'
+}
+
 class Alert {
   constructor () {
-    this.isVisible = false
+    this.state = {
+      ...defaultProperties,
+      isVisible: false
+    }
     this.reset()
   }
 
   /**
    * Revert properties to default values
    */
-  reset () {
-    this._backgroundColor = 'info'
-    this._iconDarkTheme = true
-    this._dismissible = true
-    this._icon = 'info'
-    this._text = ''
-    this._timeout = 0
-    this._transition = 'fade-transition'
+  reset = () => {
+    Object.assign(this.state, defaultProperties)
   }
 
   /**
@@ -27,10 +35,8 @@ class Alert {
    * @param {String} property
    * @return {*}
    */
-  get (property) {
-    // if (property === 'isVisible') return this.isVisible
-    if (this.hasOwnProperty('_' + property)) return this['_' + property]
-    return null
+  get = (property) => {
+    return this.state[property]
   }
 
   /**
@@ -39,35 +45,44 @@ class Alert {
    * @param {*} value
    * @return {Boolean}
    */
-  set (property, value) {
-    if (this.hasOwnProperty('_' + property)) {
-      this['_' + property] = value
-      return true
-    }
-    return false
+  set = (property, value) => {
+    this.state[property] = value
   }
 
   /**
    * Show alert
    */
-  show () {
-    this.isVisible = true
-    if (this.get('timeout') > 0) {
-      setTimeout(() => {
-        this.hide()
-      }, this.get('timeout'))
-    }
+  show = () => {
+    this.set('isVisible', true)
+    if (this.get('timeout') <= 0) return
+
+    // Auto hide
+    setTimeout(() => {
+      this.hide()
+    }, this.get('timeout'))
   }
 
   /**
    * Hide alert and reset settings
    */
-  hide () {
-    this.isVisible = false
+  hide = () => {
+    // Setting isVisible to false should start the fade transition animation within 100ms
+    this.set('isVisible', false)
+
     setTimeout(() => {
       // Without timeout alert will revert to default before it disappears
       this.reset()
-    }, 500)
+    }, this.get('resetTimeout'))
+  }
+
+  /**
+   * Standard error alert
+   */
+  showError = (text) => {
+    this.set('backgroundColor', `error`)
+    this.set('icon', `warning`)
+    this.set('text', text)
+    this.show()
   }
 }
 
