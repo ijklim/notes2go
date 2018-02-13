@@ -106,7 +106,7 @@ class Actions {
 
         // Code has been changed
         if (valInDB.code !== payload.code) {
-          this.searchByCode(payload.code).once('value')
+          this._searchByCode(payload.code).once('value')
             .then(snapshot => {
               if (snapshot.val() !== null) {
                 // Duplicate `code`
@@ -125,12 +125,12 @@ class Actions {
                 })
                 .catch(error => {
                   // Database connection error?
-                  return this._error(context, `[FB] Update failed: '${error}'`)
+                  return this._error(context, `[FB#UCN] Update failed: '${error}'`)
                 })
             })
             .catch(error => {
               // Database connection error?
-              return this._error(context, `[FB] Error encountered: '${error}'`)
+              return this._error(context, `[FB#S] Error encountered: '${error}'`)
             })
 
           return
@@ -147,12 +147,12 @@ class Actions {
           })
           .catch(error => {
             // Database connection error?
-            return this._error(context, `[FB] Update failed: '${error}'`)
+            return this._error(context, `[FB#UN] Update failed: '${error}'`)
           })
       })
       .catch(error => {
         // Database connection error?
-        return this._error(context, `[FB] Error encountered: '${error}'`)
+        return this._error(context, `[FB#ID] Error encountered: '${error}'`)
       })
   }
 
@@ -193,7 +193,7 @@ class Actions {
   }
 
   /**
-   * Search for a note
+   * Search for a note by `code`
    * @param {Object} context
    * @param {String} searchText
    */
@@ -206,11 +206,13 @@ class Actions {
           return this._error(context, `Note '${searchText}' does not exist`)
         }
 
+        // Found Note
         let valInDB = snapshot.val()
-        let id = Object.getOwnPropertyNames(valInDB)
+        let [ id ] = Object.getOwnPropertyNames(valInDB)
         context.commit({ type: 'set', property: 'id', value: id })
         context.commit({ type: 'set', property: 'code', value: valInDB[id].code })
         context.commit({ type: 'set', property: 'notes', value: valInDB[id].notes })
+        context.commit({ type: 'set', property: 'mode', value: 'edit' })
         this.alert.hide()
       })
       .catch(error => {
@@ -227,6 +229,6 @@ class Actions {
   }
 }
 
-export default function makeActions (alert, firebase, snackbar) {
-  return new Actions(alert, firebase, snackbar).export()
+export default function makeActions (Vue, alert, firebase, snackbar) {
+  return new Actions(Vue, alert, firebase, snackbar).export()
 }
