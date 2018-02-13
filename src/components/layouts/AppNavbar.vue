@@ -9,6 +9,21 @@
     <!-- Hamburger, top right -->
     <v-toolbar-side-icon class="hidden-md-and-up" />
 
+    <!-- Search bar: https://vuetifyjs.com/en/components/text-fields#main-toolbar -->
+    <v-text-field
+      hint="Code to search for"
+      :persistent-hint="searchAutofocus"
+
+      append-icon="search"
+      flat
+      label="Search"
+      solo-inverted
+      v-model="searchText"
+      :autofocus="searchAutofocus"
+      :append-icon-cb="search"
+      @keyup.enter.native="search"
+    />
+
     <!-- Menu items, top right -->
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat v-for="(menuItem, i) of menuItems" :key="i" :to="menuItem.link" router>
@@ -28,9 +43,15 @@ export default {
     return {
       menuHome: '/',
       menuItems: [
-        { icon: 'smartphone', title: 'Share', link: '/note' },
-        { icon: 'search', title: 'Search', link: '/note' }
-      ]
+        { icon: 'smartphone', title: 'Share', link: '/note' }
+      ],
+      searchAutofocus: true,
+      searchText: ''
+    }
+  },
+  methods: {
+    search () {
+      this.$store.dispatch('submitSearch', this.searchText)
     }
   }
 }

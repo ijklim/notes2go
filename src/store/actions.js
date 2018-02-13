@@ -1,5 +1,6 @@
 class Actions {
-  constructor (alert, firebase, snackbar) {
+  constructor (Vue, alert, firebase, snackbar) {
+    this.Vue = Vue
     this.alert = alert
     this.firebase = firebase
     this.snackbar = snackbar
@@ -172,19 +173,56 @@ class Actions {
     if (payload.notes.length === 0) {
       return this._error(context, `Notes is required`)
     }
+
+    // Ensure data is formatted correctly
+    let formattedPayload = Object.assign(
+      payload,
+      {
+        code: this.Vue.filter('formatCode')(payload.code)
+      }
+    )
+
     // New Note
     if (payload.id.length === 0) {
       // Firebase .push() returns a promise, results won't be returned by function
-      return this._insertNote(context, payload)
+      return this._insertNote(context, formattedPayload)
     }
 
     // Update existing Note
-    return this._updateNote(context, payload)
+    return this._updateNote(context, formattedPayload)
+  }
+
+  /**
+   * Search for a note
+   * @param {Object} context
+   * @param {String} searchText
+   */
+  submitSearch = (context, searchText) => {
+    let code = this.Vue.filter('formatCode')(searchText)
+    this._searchByCode(code).once('value')
+      .then(snapshot => {
+        if (snapshot.val() === null) {
+          // Not found
+          return this._error(context, `Note '${searchText}' does not exist`)
+        }
+
+        let valInDB = snapshot.val()
+        let id = Object.getOwnPropertyNames(valInDB)
+        context.commit({ type: 'set', property: 'id', value: id })
+        context.commit({ type: 'set', property: 'code', value: valInDB[id].code })
+        context.commit({ type: 'set', property: 'notes', value: valInDB[id].notes })
+        this.alert.hide()
+      })
+      .catch(error => {
+        // Database connection error?
+        return this._error(context, `[FB] Error encountered: '${error}'`)
+      })
   }
 
   export () {
     return {
-      submitFormNote: this.submitFormNote
+      submitFormNote: this.submitFormNote,
+      submitSearch: this.submitSearch
     }
   }
 }

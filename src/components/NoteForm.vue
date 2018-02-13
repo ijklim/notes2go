@@ -58,6 +58,12 @@ export default {
   },
 
   methods: {
+    init () {
+      // All fields get defaults from Vuex store
+      for (let field in this.$data) {
+        this[field] = this.$store.state[field]
+      }
+    },
     submit () {
       this.$v.$touch()
 
@@ -125,12 +131,15 @@ export default {
       return (this.$store) ? this.$store.state.isLoading : false
     }
   },
+  watch: {
+    id: function (data) {
+      this.init()
+    }
+  },
 
   mounted () {
     // All fields get defaults from Vuex store
-    for (let field in this.$data) {
-      this[field] = this.$store.state[field]
-    }
+    this.init()
 
     // Dynamically set min and max code length to keep logic in getters module
     this.$options.validations.code.minLength = minLength(this.$store.getters.codeMinLength)

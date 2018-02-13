@@ -32,7 +32,7 @@ export default function makeStore (Vue, alert, firebase, snackbar) {
 
   return new Vuex.Store({
     state,
-    actions: makeActions(alert, firebase, snackbar),
+    actions: makeActions(Vue, alert, firebase, snackbar),
     getters: makeGetters(),
     mutations: makeMutations()
   })
