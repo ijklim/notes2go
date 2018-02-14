@@ -7,16 +7,14 @@
     <v-spacer />
 
     <!-- Hamburger, top right -->
-    <v-toolbar-side-icon class="hidden-md-and-up" />
+    <!-- <v-toolbar-side-icon class="hidden-md-and-up" /> -->
 
     <!-- Search bar: https://vuetifyjs.com/en/components/text-fields#main-toolbar -->
     <v-text-field
-      hint="Code to search for"
-      :persistent-hint="searchAutofocus"
-
       append-icon="search"
+      class="toolbar__search mr-2"
       flat
-      label="Search"
+      label="Code search"
       solo-inverted
       v-model="searchText"
       :autofocus="searchAutofocus"
@@ -58,4 +56,7 @@ export default {
 </script>
 
 <style scoped>
+.toolbar__search {
+  max-width: 250px;
+}
 </style>
