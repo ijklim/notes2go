@@ -35,4 +35,9 @@ button:hover,
 .clickable:hover {
   cursor: pointer;
 }
+
+/* Sweet Alert 2 */
+.swal2-container {
+  font-family: 'Open Sans';
+}
 </style>
