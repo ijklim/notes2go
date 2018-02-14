@@ -1,5 +1,5 @@
 /**
- * alert v1.0.0
+ * alert v1.1.0
  * (c) 2018 Ivan Lim
  * @license MIT
  */
