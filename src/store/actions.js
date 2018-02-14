@@ -24,10 +24,10 @@ class Actions {
    * Always returns true as success status
    * @return {Boolean}
    */
-  _success = (context, text) => {
+  _success = (context, text, icon = '💾') => {
     // Configure snackbar to show success status
     this.snackbar.set('dismissible', false)
-    this.snackbar.set('icon', '💾')
+    this.snackbar.set('icon', icon)
     this.snackbar.set('text', text)
     this.snackbar.set('timeout', 1000)
     this.snackbar.set('right', false)
@@ -198,26 +198,49 @@ class Actions {
    * @param {String} searchText
    */
   submitSearch = (context, searchText) => {
-    let code = this.Vue.filter('formatCode')(searchText)
-    this._searchByCode(code).once('value')
-      .then(snapshot => {
-        if (snapshot.val() === null) {
-          // Not found
-          return this._error(context, `Note '${searchText}' does not exist`)
-        }
+    let performSearch = () => {
+      let code = this.Vue.filter('formatCode')(searchText)
+      this._searchByCode(code).once('value')
+        .then(snapshot => {
+          if (snapshot.val() === null) {
+            // Not found
+            return this._error(context, `Note '${searchText}' does not exist`)
+          }
 
-        // Found Note
-        let valInDB = snapshot.val()
-        let [ id ] = Object.getOwnPropertyNames(valInDB)
-        context.commit({ type: 'set', property: 'id', value: id })
-        context.commit({ type: 'set', property: 'code', value: valInDB[id].code })
-        context.commit({ type: 'set', property: 'notes', value: valInDB[id].notes })
-        context.commit({ type: 'set', property: 'mode', value: 'edit' })
-        this.alert.hide()
-      })
-      .catch(error => {
-        // Database connection error?
-        return this._error(context, `[FB] Error encountered: '${error}'`)
+          // Found Note
+          let valInDB = snapshot.val()
+          let [ id ] = Object.getOwnPropertyNames(valInDB)
+          context.commit({ type: 'set', property: 'id', value: id })
+          context.commit({ type: 'set', property: 'code', value: valInDB[id].code })
+          context.commit({ type: 'set', property: 'notes', value: valInDB[id].notes })
+          context.commit('setDefaults')
+
+          this._success(context, `'${valInDB[id].code}' loaded`, '👍')
+        })
+        .catch(error => {
+          // Database connection error?
+          return this._error(context, `[FB] Error encountered: '${error}'`)
+        })
+    }
+
+    if (context.getters.canLeaveWithoutConfirmation) {
+      performSearch()
+      return
+    }
+
+    // Ask user for confirmation
+    this.Vue.swal({
+      title: 'Proceed with search?',
+      text: 'Changes made have not been saved.',
+      type: 'warning',
+      showCancelButton: true,
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'No, let me save first',
+      confirmButtonText: 'Yes'
+    })
+      .then(result => {
+        if (!result.value) return
+        performSearch()
       })
   }
 
