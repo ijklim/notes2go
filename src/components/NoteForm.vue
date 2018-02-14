@@ -60,12 +60,29 @@ export default {
   },
 
   methods: {
+    /**
+     * Initialize data fields by retrieving values from Vuex store
+     */
     init () {
-      // All fields get defaults from Vuex store
       for (let field in this.$data) {
         this[field] = this.$store.state[field]
       }
     },
+
+    /**
+     * Event triggered by keystroke in `code` field
+     */
+    onInputCode (value) {
+      // Code must be lower case and without space
+      this.code = this.$root.$options.filters.formatCode(value)
+
+      // Set $dirty flag of code field
+      this.$v.code.$touch()
+    },
+
+    /**
+     * Submit form, new note or note update
+     */
     submit () {
       this.$v.$touch()
 
@@ -83,13 +100,6 @@ export default {
 
       // Reset dirty flag of form
       this.$v.$reset()
-    },
-    onInputCode (value) {
-      // Code must be lower case and without space
-      this.code = this.$root.$options.filters.formatCode(value)
-
-      // Set $dirty flag of code field
-      this.$v.code.$touch()
     }
   },
 
@@ -113,21 +123,23 @@ export default {
       return errors
     },
 
+    isFormDirty () {
+      // All editable form fields should have validation rules
+      // Loop through all properties in params to retrieve form field names
+      // Note: Current Vuelidate does not contain an 'any' field dirty flag, only 'all' fields dirty flag
+      for (let property in this.$v.$params) {
+        if (this.$v[property].$dirty) return true
+      }
+      return false
+    },
     isSaveButtonDisabled () {
       if (this.$v.$invalid) return true
       if (this.isSaving) return true
-
-      // Loop through all properties in params to retrieve field names
-      // If any field is dirty, enable Save button
-      for (let property in this.$v.$params) {
-        if (this.$v[property].$dirty) return false
-      }
-
-      // Form is clean
+      if (this.isFormDirty) return false
       return true
     },
     isSaveButtonVisible () {
-      return (this.$store) ? this.$store.state.mode === 'edit' : false
+      return (this.$store) ? this.$store.getters.isDataEditable : false
     },
     isSaving () {
       return (this.$store) ? this.$store.state.isLoading : false
@@ -136,6 +148,15 @@ export default {
   watch: {
     id: function (data) {
       this.init()
+    },
+    isFormDirty: function (data) {
+      // Form should not be dirty if data is not editable
+      if (!this.$store.getters.isDataEditable) {
+        this.$store.commit('setDirtyFlag', false)
+        return
+      }
+
+      this.$store.commit('setDirtyFlag', data)
     }
   },
 

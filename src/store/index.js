@@ -15,12 +15,17 @@ import makeMutations from './mutations'
  * - id > 0 and 2 character code matching last 2 in db, view mode, do not disclose code (get)
  * - id > 0 and code exact match db, edit mode (get)
 */
+const defaultFormStates = {
+  isDirty: false,
+  isLoading: false,
+  mode: 'edit',
+  skipConfirmationDirty: false
+}
 
 export default function makeStore (Vue, alert, firebase, snackbar) {
   const state = {
-    // Form states
-    mode: 'edit',
-    isLoading: false,
+    // Form states, structure supports only 1 visible form
+    ...defaultFormStates,
     // System generated
     id: '',
     // User input
@@ -34,6 +39,6 @@ export default function makeStore (Vue, alert, firebase, snackbar) {
     state,
     actions: makeActions(Vue, alert, firebase, snackbar),
     getters: makeGetters(),
-    mutations: makeMutations()
+    mutations: makeMutations(defaultFormStates)
   })
 }
