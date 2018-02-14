@@ -3,7 +3,9 @@
     <v-form>
       <input type="hidden" name="id" :value="id" />
       <v-text-field
+        hint="Code must be unique, can be used to retrieve your note later"
         label="Code"
+        persistent-hint
         required
         v-if="mode === 'edit'"
         v-model="code"
