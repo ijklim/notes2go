@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import AppNavbar from '@/components/layouts/AppNavbar'
-import AppFooter from '@/components/layouts/AppFooter'
+import AppNavbar from '@/views/layouts/AppNavbar'
+import AppFooter from '@/views/layouts/AppFooter'
 
 export default {
   name: 'app',
