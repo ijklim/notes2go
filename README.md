@@ -7,6 +7,7 @@
 * [Vuetify](https://vuetifyjs.com)
 * [Vuelidate](https://github.com/monterail/vuelidate)
 * Vuex
+* Sweet Alert 2
 
 ## Build Setup
 
@@ -31,4 +32,4 @@
 
 ## Credits
 
-* [Icon made by Smashicons](https://www.flaticon.com/authors/smashicons)
+* [App icon made by Smashicons](https://www.flaticon.com/authors/smashicons)
