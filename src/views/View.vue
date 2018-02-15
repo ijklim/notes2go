@@ -4,7 +4,7 @@
       <v-flex xs12 sm10>
         <note-alert />
       </v-flex>
-      {{ notes }}
+      <note-display :notes="notes" />
       <note-snackbar />
       <note-add />
     </v-layout>
@@ -14,6 +14,7 @@
 <script>
 import NoteAdd from '@/components/NoteAdd'
 import NoteAlert from '@/components/NoteAlert'
+import NoteDisplay from '@/components/NoteDisplay'
 import NoteSnackbar from '@/components/NoteSnackbar'
 
 export default {
@@ -33,6 +34,7 @@ export default {
   components: {
     NoteAdd,
     NoteAlert,
+    NoteDisplay,
     NoteSnackbar
   },
 

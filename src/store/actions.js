@@ -206,10 +206,11 @@ class Actions {
             // Not found
             return this._error(context, `Note '${searchText}' does not exist`)
           }
-
+          console.log('todo: go to form')
           // Found Note
           let valInDB = snapshot.val()
           let [ id ] = Object.getOwnPropertyNames(valInDB)
+          context.commit('resetFormFields')
           context.commit({ type: 'set', property: 'id', value: id })
           context.commit({ type: 'set', property: 'code', value: valInDB[id].code })
           context.commit({ type: 'set', property: 'notes', value: valInDB[id].notes })
@@ -276,11 +277,41 @@ class Actions {
       })
   }
 
+  /**
+   * Search for a note by `id`, if found, note will be view only
+   */
+  viewNote = (context, id) => {
+    let ref = this.firebase.database().ref('notes/' + id)
+    ref.once('value')
+      .then(snapshot => {
+        let valInDB = snapshot.val()
+        // id is not in the database
+        if (valInDB === null) {
+          return this._error(context, `Note does not exist.`)
+        }
+
+        // Found Note
+        context.commit('resetFormFields')
+        context.commit({ type: 'set', property: 'id', value: id })
+        context.commit({ type: 'set', property: 'notes', value: valInDB.notes })
+        context.commit('resetFormStates')
+        context.commit({ type: 'set', property: 'formTimestamp', value: (new Date()).getTime() })
+
+        this.alert.hide()
+        context.commit('setLoadingFlag', false)
+      })
+      .catch(error => {
+        // Database connection error?
+        return this._error(context, `[FB#R] Error encountered: '${error}'`)
+      })
+  }
+
   export () {
     return {
       startNewNote: this.startNewNote,
       submitFormNote: this.submitFormNote,
-      submitSearch: this.submitSearch
+      submitSearch: this.submitSearch,
+      viewNote: this.viewNote
     }
   }
 }
