@@ -3,7 +3,7 @@
     <v-form>
       <input type="hidden" name="id" :value="id" />
       <v-text-field
-        hint="Code must be unique, can be used to retrieve your note later"
+        hint="Code must be unique, can be used to retrieve your notes later"
         label="Code"
         persistent-hint
         required
@@ -67,6 +67,8 @@ export default {
       for (let field in this.$data) {
         this[field] = this.$store.state[field]
       }
+      // Reset Vuelidate form $dirty flag, otherwise blank fields could trigger error messages
+      this.$v.$reset()
     },
 
     /**
@@ -107,6 +109,12 @@ export default {
     id () {
       return (this.$store) ? this.$store.state.id : ''
     },
+    /**
+     * Form Timestamp will be changed when a new form is created or loaded from database
+     */
+    formTimesteamp () {
+      return (this.$store) ? this.$store.state.formTimestamp : ''
+    },
 
     errorsCode () {
       const errors = []
@@ -146,7 +154,7 @@ export default {
     }
   },
   watch: {
-    id: function (data) {
+    formTimesteamp: function (data) {
       this.init()
     },
     isFormDirty: function (data) {

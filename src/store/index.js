@@ -15,6 +15,15 @@ import makeMutations from './mutations'
  * - id > 0 and 2 character code matching last 2 in db, view mode, do not disclose code (get)
  * - id > 0 and code exact match db, edit mode (get)
 */
+const defaultFormFields = {
+  // System generated
+  id: '',
+  // User input
+  code: '',
+  notes: ''
+}
+
+// Form states, structure supports only 1 visible form
 const defaultFormStates = {
   isDirty: false,
   isLoading: false,
@@ -24,13 +33,9 @@ const defaultFormStates = {
 
 export default function makeStore (Vue, alert, firebase, snackbar) {
   const state = {
-    // Form states, structure supports only 1 visible form
+    ...defaultFormFields,
     ...defaultFormStates,
-    // System generated
-    id: '',
-    // User input
-    code: '',
-    notes: ''
+    formTimestamp: (new Date()).getTime()
   }
 
   Vue.use(Vuex)
@@ -39,6 +44,6 @@ export default function makeStore (Vue, alert, firebase, snackbar) {
     state,
     actions: makeActions(Vue, alert, firebase, snackbar),
     getters: makeGetters(),
-    mutations: makeMutations(defaultFormStates)
+    mutations: makeMutations(defaultFormFields, defaultFormStates)
   })
 }

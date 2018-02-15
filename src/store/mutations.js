@@ -1,12 +1,22 @@
 class Mutations {
-  constructor (defaultFormStates) {
+  constructor (defaultFormFields, defaultFormStates) {
+    this.defaultFormFields = defaultFormFields
     this.defaultFormStates = defaultFormStates
+  }
+
+  /**
+   * Reture form fields to default values
+   */
+  resetFormFields = (state) => {
+    for (let property in this.defaultFormFields) {
+      state[property] = this.defaultFormFields[property]
+    }
   }
 
   /**
    * Reture form states to default values
    */
-  setDefaults = (state) => {
+  resetFormStates = (state) => {
     for (let property in this.defaultFormStates) {
       state[property] = this.defaultFormStates[property]
     }
@@ -30,7 +40,8 @@ class Mutations {
 
   export () {
     return {
-      setDefaults: this.setDefaults,
+      resetFormFields: this.resetFormFields,
+      resetFormStates: this.resetFormStates,
       setDirtyFlag: this.setDirtyFlag,
       setLoadingFlag: this.setLoadingFlag,
       setSkipConfirmationDirtyFlag: this.setSkipConfirmationDirtyFlag,
@@ -39,6 +50,6 @@ class Mutations {
   }
 }
 
-export default function makeMutations (defaultFormStates) {
-  return new Mutations(defaultFormStates).export()
+export default function makeMutations (defaultFormFields, defaultFormStates) {
+  return new Mutations(defaultFormFields, defaultFormStates).export()
 }

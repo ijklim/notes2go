@@ -213,7 +213,8 @@ class Actions {
           context.commit({ type: 'set', property: 'id', value: id })
           context.commit({ type: 'set', property: 'code', value: valInDB[id].code })
           context.commit({ type: 'set', property: 'notes', value: valInDB[id].notes })
-          context.commit('setDefaults')
+          context.commit('resetFormStates')
+          context.commit({ type: 'set', property: 'formTimestamp', value: (new Date()).getTime() })
 
           this._success(context, `'${valInDB[id].code}' loaded`, '👍')
         })
@@ -244,8 +245,40 @@ class Actions {
       })
   }
 
+  /**
+   * Start a new note with blank fields
+   */
+  startNewNote = (context) => {
+    let resetFormNote = () => {
+      context.commit('resetFormFields')
+      context.commit('resetFormStates')
+      context.commit({ type: 'set', property: 'formTimestamp', value: (new Date()).getTime() })
+    }
+
+    if (context.getters.canLeaveWithoutConfirmation) {
+      resetFormNote()
+      return
+    }
+
+    // Ask user for confirmation
+    this.Vue.swal({
+      title: 'Start a new note?',
+      text: 'Changes made have not been saved.',
+      type: 'warning',
+      showCancelButton: true,
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'No, let me save first',
+      confirmButtonText: 'Yes'
+    })
+      .then(result => {
+        if (!result.value) return
+        resetFormNote()
+      })
+  }
+
   export () {
     return {
+      startNewNote: this.startNewNote,
       submitFormNote: this.submitFormNote,
       submitSearch: this.submitSearch
     }
