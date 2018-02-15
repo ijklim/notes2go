@@ -1,8 +1,9 @@
 class Actions {
-  constructor (Vue, alert, firebase, snackbar) {
+  constructor (Vue, alert, firebase, router, snackbar) {
     this.Vue = Vue
     this.alert = alert
     this.firebase = firebase
+    this.router = router
     this.snackbar = snackbar
   }
 
@@ -206,8 +207,12 @@ class Actions {
             // Not found
             return this._error(context, `Note '${searchText}' does not exist`)
           }
-          console.log('todo: go to form')
+
           // Found Note
+          // Reture to home page, which allows edit
+          this.router.push('/')
+
+          // Load data into Vuex store
           let valInDB = snapshot.val()
           let [ id ] = Object.getOwnPropertyNames(valInDB)
           context.commit('resetFormFields')
@@ -295,6 +300,7 @@ class Actions {
         context.commit({ type: 'set', property: 'id', value: id })
         context.commit({ type: 'set', property: 'notes', value: valInDB.notes })
         context.commit('resetFormStates')
+        context.commit({ type: 'set', property: 'mode', value: 'View' })
         context.commit({ type: 'set', property: 'formTimestamp', value: (new Date()).getTime() })
 
         this.alert.hide()
@@ -316,6 +322,6 @@ class Actions {
   }
 }
 
-export default function makeActions (Vue, alert, firebase, snackbar) {
-  return new Actions(Vue, alert, firebase, snackbar).export()
+export default function makeActions (Vue, alert, firebase, router, snackbar) {
+  return new Actions(Vue, alert, firebase, router, snackbar).export()
 }

@@ -31,7 +31,7 @@ const defaultFormStates = {
   skipConfirmationDirty: false
 }
 
-export default function makeStore (Vue, alert, firebase, snackbar) {
+export default function makeStore (Vue, alert, firebase, router, snackbar) {
   const state = {
     ...defaultFormFields,
     ...defaultFormStates,
@@ -42,7 +42,7 @@ export default function makeStore (Vue, alert, firebase, snackbar) {
 
   return new Vuex.Store({
     state,
-    actions: makeActions(Vue, alert, firebase, snackbar),
+    actions: makeActions(Vue, alert, firebase, router, snackbar),
     getters: makeGetters(),
     mutations: makeMutations(defaultFormFields, defaultFormStates)
   })

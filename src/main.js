@@ -23,7 +23,7 @@ Vue.use(VueSweetalert2)
 // Inject Vue, replace the need to import Vue into snackbar, dependencies are also clearer
 const alert = makeAlert(Vue)
 const snackbar = makeSnackbar(Vue)
-const store = makeStore(Vue, alert, firebase, snackbar)
+const store = makeStore(Vue, alert, firebase, router, snackbar)
 
 // console.log('[Dev Only]', 'Vue Version: ', Vue.version)
 Vue.config.productionTip = true
