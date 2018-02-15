@@ -13,18 +13,12 @@ import VueSweetalert2 from 'vue-sweetalert2'
 import makeStore from './store'
 import makeSnackbar from './modules/snackbar'
 import makeAlert from './modules/alert'
+import './filters'
 
 import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)
 Vue.use(VueSweetalert2)
-
-// Filters
-// `code` should be in lower case, spaces replaced by .
-Vue.filter('formatCode', (value) => {
-  if (!value) return ''
-  return value.toLowerCase().replace(/ /g, '.')
-})
 
 // Inject Vue, replace the need to import Vue into snackbar, dependencies are also clearer
 const alert = makeAlert(Vue)
