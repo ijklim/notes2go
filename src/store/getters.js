@@ -23,12 +23,25 @@ class Getters {
     return (state.mode === 'edit')
   }
 
+  linkViewOnly = state => {
+    if (state.id === '') return ''
+
+    let link = window.location.protocol +
+               '//' +
+               window.location.hostname +
+               '/' +
+               'view/' +
+               state.id
+    return link
+  }
+
   export () {
     return {
       canLeaveWithoutConfirmation: this.canLeaveWithoutConfirmation,
       codeMinLength: this.codeMinLength,
       codeMaxLength: this.codeMaxLength,
-      isDataEditable: this.isDataEditable
+      isDataEditable: this.isDataEditable,
+      linkViewOnly: this.linkViewOnly
     }
   }
 }

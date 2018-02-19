@@ -158,6 +158,88 @@ class Actions {
   }
 
   /**
+   * Delete current note
+   */
+  deleteNote = (context) => {
+    // Ask user for confirmation
+    this.Vue.swal({
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Yes',
+      showCancelButton: true,
+      text: 'Once deleted, note cannot be recovered.',
+      title: 'Delete note?',
+      type: 'warning'
+    })
+      .then(result => {
+        if (!result.value) return
+
+        console.log('todo: delete note')
+        // this._success(context, 'New note ready', '⭐')
+      })
+  }
+
+  /**
+   * Open dialog box, show View Only link and button to copy link to clipboard
+   */
+  shareNote = (context) => {
+    let inputClass = 'view-only-link'
+    this.Vue.swal(
+      {
+        confirmButtonText: 'Copy Link',
+        input: 'text',
+        inputClass,
+        inputValue: context.getters.linkViewOnly,
+        showCloseButton: true,
+        title: 'Share with others',
+        type: 'info'
+      }
+    )
+      .then(result => {
+        if (!result.value) return
+
+        let input = document.querySelector('.' + inputClass)
+        input.select()
+        document.execCommand('Copy')
+
+        this._success(context, 'Link copied to clipboard!', '📋')
+      })
+  }
+
+  /**
+   * Start a new note with blank fields
+   */
+  startNewNote = (context) => {
+    let resetFormNote = () => {
+      context.commit('resetFormFields')
+      context.commit('resetFormStates')
+      context.commit({ type: 'set', property: 'formTimestamp', value: (new Date()).getTime() })
+    }
+
+    if (context.getters.canLeaveWithoutConfirmation) {
+      resetFormNote()
+      this._success(context, 'New note ready', '⭐')
+      return
+    }
+
+    // Ask user for confirmation
+    this.Vue.swal({
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'No, let me save first',
+      confirmButtonText: 'Yes',
+      showCancelButton: true,
+      text: 'Changes made have not been saved.',
+      title: 'Start a new note?',
+      type: 'warning'
+    })
+      .then(result => {
+        if (!result.value) return
+        resetFormNote()
+        this._success(context, 'New note ready', '⭐')
+      })
+  }
+
+  /**
    * Invoked by Notes submission form
    * @param {Object} context
    * @param {Object} payload
@@ -237,48 +319,17 @@ class Actions {
 
     // Ask user for confirmation
     this.Vue.swal({
-      title: 'Proceed with search?',
-      text: 'Changes made have not been saved.',
-      type: 'warning',
-      showCancelButton: true,
       cancelButtonColor: '#d33',
       cancelButtonText: 'No, let me save first',
-      confirmButtonText: 'Yes'
+      confirmButtonText: 'Yes',
+      showCancelButton: true,
+      text: 'Changes made have not been saved.',
+      title: 'Proceed with search?',
+      type: 'warning'
     })
       .then(result => {
         if (!result.value) return
         performSearch()
-      })
-  }
-
-  /**
-   * Start a new note with blank fields
-   */
-  startNewNote = (context) => {
-    let resetFormNote = () => {
-      context.commit('resetFormFields')
-      context.commit('resetFormStates')
-      context.commit({ type: 'set', property: 'formTimestamp', value: (new Date()).getTime() })
-    }
-
-    if (context.getters.canLeaveWithoutConfirmation) {
-      resetFormNote()
-      return
-    }
-
-    // Ask user for confirmation
-    this.Vue.swal({
-      title: 'Start a new note?',
-      text: 'Changes made have not been saved.',
-      type: 'warning',
-      showCancelButton: true,
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'No, let me save first',
-      confirmButtonText: 'Yes'
-    })
-      .then(result => {
-        if (!result.value) return
-        resetFormNote()
       })
   }
 
@@ -314,6 +365,8 @@ class Actions {
 
   export () {
     return {
+      deleteNote: this.deleteNote,
+      shareNote: this.shareNote,
       startNewNote: this.startNewNote,
       submitFormNote: this.submitFormNote,
       submitSearch: this.submitSearch,
