@@ -7,7 +7,8 @@
 * [Vuetify](https://vuetifyjs.com)
 * [Vuelidate](https://github.com/monterail/vuelidate)
 * Vuex
-* Sweet Alert 2
+* [Material Icons](https://material.io/icons)
+* [vue-sweetalert2](https://www.npmjs.com/package/vue-sweetalert2)
 
 ## Build Setup
 
