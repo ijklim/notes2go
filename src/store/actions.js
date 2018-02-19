@@ -1,3 +1,7 @@
+let feedbacks = require('./actions/feedbacks')
+let firebaseNotes = require('./actions/firebaseNotes')
+let formNotes = require('./actions/formNotes')
+
 class Actions {
   constructor (Vue, alert, firebase, router, snackbar) {
     this.Vue = Vue
@@ -7,155 +11,16 @@ class Actions {
     this.snackbar = snackbar
   }
 
-  /**
-   * Show error alert and clear loading flag
-   * Always returns false as error status
-   * @param {Object} context
-   * @param {Object} payload
-   * @return {Boolean}
-   */
-  _error = (context, text) => {
-    this.alert.showError(text)
-    context.commit('setLoadingFlag', false)
-    return false
-  }
+  // Note: Using arrow functions within external modules will prevent `this` from working
+  _error = feedbacks._error
+  _success = feedbacks._success
 
-  /**
-   * Show success snackbar, hide alert and clear loading flag
-   * Always returns true as success status
-   * @return {Boolean}
-   */
-  _success = (context, text, icon = '💾') => {
-    // Configure snackbar to show success status
-    this.snackbar.set('dismissible', false)
-    this.snackbar.set('icon', icon)
-    this.snackbar.set('text', text)
-    this.snackbar.set('timeout', 1000)
-    this.snackbar.set('right', false)
-    this.snackbar.show()
+  _resetFormNote = formNotes._resetFormNote
 
-    this.alert.hide()
-    context.commit('setLoadingFlag', false)
-    return true
-  }
-
-  /**
-   * Search Notes to find node with code, returns Firebase ref
-   * @param {String} code
-   * @return {Object}
-   */
-  _searchByCode = (code) => {
-    // Note: Create index on `code` to prevent Firebase warning and improve query speed
-    return this.firebase.database().ref('notes').orderByChild('code').equalTo(code)
-  }
-
-  /**
-   * Insert new Note node, ensure `code` is unique
-   * @param {Object} context
-   * @param {Object} payload
-   * @return {Boolean}
-   */
-  _insertNote = (context, payload) => {
-    // let ref = this.firebase.database().ref('notes').orderByChild('code').equalTo(payload.code)
-    this._searchByCode(payload.code).once('value')
-      .then(snapshot => {
-        if (snapshot.val() !== null) {
-          // Duplicate `code`
-          return this._error(context, `Code '${payload.code}' already exists, please select another code`)
-        }
-
-        // Attempt to add new Note
-        let data = {
-          code: payload.code,
-          notes: payload.notes,
-          dateCreated: (new Date()).toISOString()
-        }
-        this.firebase.database().ref('notes').push(data)
-          .then(result => {
-            context.commit({ type: 'set', property: 'id', value: result.key })
-            context.commit({ type: 'set', property: 'code', value: payload.code })
-            context.commit({ type: 'set', property: 'notes', value: payload.notes })
-
-            return this._success(context, 'Saved')
-          })
-          .catch(_ => {
-            // Most likely permission error, should not happen if data is clean
-            return this._error(context, `[FB] Error encountered trying to create a new Note, please try again later`)
-          })
-      })
-      .catch(error => {
-        // Database connection error?
-        return this._error(context, `[FB] Error encountered: '${error}'`)
-      })
-  }
-
-  /**
-   * Update Note node, ensure `code` is unique and id is valid
-   * @param {Object} context
-   * @param {Object} payload
-   * @return {Boolean}
-   */
-  _updateNote = (context, payload) => {
-    let ref = this.firebase.database().ref('notes/' + payload.id)
-    ref.once('value')
-      .then(snapshot => {
-        let valInDB = snapshot.val()
-        // payload.id is not in the database
-        if (valInDB === null) {
-          return this._error(context, `Note data has been corrupted, please reload.`)
-        }
-
-        // Code has been changed
-        if (valInDB.code !== payload.code) {
-          this._searchByCode(payload.code).once('value')
-            .then(snapshot => {
-              if (snapshot.val() !== null) {
-                // Duplicate `code`
-                return this._error(context, `Code '${payload.code}' already exists, please select another code`)
-              }
-
-              // Update the code and notes fields
-              ref.update(
-                {
-                  code: payload.code,
-                  notes: payload.notes
-                }
-              )
-                .then(_ => {
-                  return this._success(context, 'Updated')
-                })
-                .catch(error => {
-                  // Database connection error?
-                  return this._error(context, `[FB#UCN] Update failed: '${error}'`)
-                })
-            })
-            .catch(error => {
-              // Database connection error?
-              return this._error(context, `[FB#S] Error encountered: '${error}'`)
-            })
-
-          return
-        }
-
-        // Only the notes field has been changed
-        ref.update(
-          {
-            notes: payload.notes
-          }
-        )
-          .then(_ => {
-            return this._success(context, 'Updated')
-          })
-          .catch(error => {
-            // Database connection error?
-            return this._error(context, `[FB#UN] Update failed: '${error}'`)
-          })
-      })
-      .catch(error => {
-        // Database connection error?
-        return this._error(context, `[FB#ID] Error encountered: '${error}'`)
-      })
-  }
+  _deleteNote = firebaseNotes._deleteNote
+  _insertNote = firebaseNotes._insertNote
+  _searchByCode = firebaseNotes._searchByCode
+  _updateNote = firebaseNotes._updateNote
 
   /**
    * Delete current note
@@ -174,8 +39,7 @@ class Actions {
       .then(result => {
         if (!result.value) return
 
-        console.log('todo: delete note')
-        // this._success(context, 'New note ready', '⭐')
+        this._deleteNote(context, context.state.id)
       })
   }
 
@@ -210,14 +74,8 @@ class Actions {
    * Start a new note with blank fields
    */
   startNewNote = (context) => {
-    let resetFormNote = () => {
-      context.commit('resetFormFields')
-      context.commit('resetFormStates')
-      context.commit({ type: 'set', property: 'formTimestamp', value: (new Date()).getTime() })
-    }
-
     if (context.getters.canLeaveWithoutConfirmation) {
-      resetFormNote()
+      this._resetFormNote(context)
       this._success(context, 'New note ready', '⭐')
       return
     }
@@ -234,7 +92,7 @@ class Actions {
     })
       .then(result => {
         if (!result.value) return
-        resetFormNote()
+        this._resetFormNote(context)
         this._success(context, 'New note ready', '⭐')
       })
   }
