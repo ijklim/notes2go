@@ -13,7 +13,7 @@ export const _deleteNote = function (context, id) {
 
       ref.remove()
 
-      this._resetForm(context)
+      this._resetFormNote(context)
 
       this._success(context, 'Note deleted!', '🗑️')
     })
