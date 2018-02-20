@@ -66,7 +66,7 @@ class Actions {
         input.select()
         document.execCommand('Copy')
 
-        this._success(context, 'Link copied to clipboard!', '📋')
+        this._success(context, 'Link copied to clipboard!', '📋', 2500)
       })
   }
 
