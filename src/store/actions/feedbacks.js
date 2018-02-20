@@ -16,12 +16,12 @@ export const _error = function (context, text) {
  * Always returns true as success status
  * @return {Boolean}
  */
-export const _success = function (context, text, icon = '💾') {
+export const _success = function (context, text, icon = '💾', timeout = 1000) {
   // Configure snackbar to show success status
   this.snackbar.set('dismissible', false)
   this.snackbar.set('icon', icon)
   this.snackbar.set('text', text)
-  this.snackbar.set('timeout', 1000)
+  this.snackbar.set('timeout', timeout)
   this.snackbar.set('right', false)
   this.snackbar.show()
 
