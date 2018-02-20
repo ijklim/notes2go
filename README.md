@@ -12,11 +12,12 @@ Notes sharing between devices or users without login
 
 ## Technologies
 * Vue.js 2.0
-* [Vuetify](https://vuetifyjs.com)
 * [Vuelidate](https://github.com/monterail/vuelidate)
+* [Vuetify](https://vuetifyjs.com)
 * Vuex
-* [Material Icons](https://material.io/icons)
 * [vue-sweetalert2](https://www.npmjs.com/package/vue-sweetalert2)
+* [Material Icons](https://material.io/icons)
+* Firebase
 
 
 ## Development Setup
