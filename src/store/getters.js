@@ -29,6 +29,7 @@ class Getters {
     let link = window.location.protocol +
                '//' +
                window.location.hostname +
+               (location.port ? ':' + location.port : '') +
                '/' +
                'view/' +
                state.id
