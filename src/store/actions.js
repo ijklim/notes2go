@@ -56,18 +56,18 @@ class Actions {
         inputValue: context.getters.linkViewOnly,
         showCloseButton: true,
         title: 'Share with others',
-        type: 'info'
+        type: 'info',
+        onOpen: () => {
+          // Cannot use .then as Firefox does not allow copy to clipboard function outside of onClick event
+          document.querySelector('.swal2-confirm').addEventListener('click', () => {
+            document.querySelector('.' + inputClass).select()
+            document.execCommand('Copy')
+
+            this._success(context, 'Link copied to clipboard!', '📋', 2500)
+          })
+        }
       }
     )
-      .then(result => {
-        if (!result.value) return
-
-        let input = document.querySelector('.' + inputClass)
-        input.select()
-        document.execCommand('Copy')
-
-        this._success(context, 'Link copied to clipboard!', '📋', 2500)
-      })
   }
 
   /**
