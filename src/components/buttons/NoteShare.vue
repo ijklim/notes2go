@@ -1,7 +1,7 @@
 <template>
   <v-tooltip bottom>
     <v-btn icon slot="activator" @click="onClick" v-if="showIcon">
-      <v-icon>share</v-icon>
+      <v-icon :color="color">share</v-icon>
     </v-btn>
     <span>Share</span>
   </v-tooltip>
@@ -11,6 +11,12 @@
   export default {
     name: 'NoteShare',
 
+    props: {
+      color: {
+        type: String,
+        default: 'white'
+      }
+    },
     computed: {
       showIcon () {
         return this.$store.getters.linkViewOnly.length > 0

@@ -1,7 +1,7 @@
 <template>
   <v-tooltip bottom>
     <v-btn icon slot="activator" @click="onClick" v-if="showIcon">
-      <v-icon>delete</v-icon>
+      <v-icon :color="color">delete</v-icon>
     </v-btn>
     <span>Delete</span>
   </v-tooltip>
@@ -11,9 +11,15 @@
   export default {
     name: 'NoteDelete',
 
+    props: {
+      color: {
+        type: String,
+        default: 'white'
+      }
+    },
     computed: {
       showIcon () {
-        return this.$store.getters.isDataEditable && this.$store.getters.linkViewOnly.length > 0
+        return (this.$store.getters.isDataEditable && this.$store.getters.linkViewOnly.length > 0)
       }
     },
 

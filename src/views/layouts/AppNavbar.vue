@@ -6,12 +6,6 @@
     </v-toolbar-title>
     <v-spacer />
 
-    <!-- Icons -->
-    <div class="mr-3">
-      <note-delete />
-      <note-share />
-    </div>
-
     <!-- Search bar: https://vuetifyjs.com/en/components/text-fields#main-toolbar -->
     <v-text-field
       append-icon="search"
@@ -28,16 +22,8 @@
 </template>
 
 <script>
-import NoteDelete from '@/components/buttons/NoteDelete'
-import NoteShare from '@/components/buttons/NoteShare'
-
 export default {
   name: 'AppNavbar',
-
-  components: {
-    NoteDelete,
-    NoteShare
-  },
 
   props: {
     appName: String

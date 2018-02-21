@@ -1,6 +1,15 @@
 <template>
   <v-flex xs12 md10 mt-2>
+    
     <v-card class="elevation-3">
+      <v-toolbar color="brown">
+        <v-toolbar-title class="white--text">My Notes</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <div class="mr-3">
+          <note-delete />
+          <note-share />
+        </div>
+      </v-toolbar>
       <v-card-text>
         <v-form>
           <input type="hidden" name="id" :value="id" />
@@ -44,6 +53,8 @@
 <script>
 import { validationMixin } from 'vuelidate'
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
+import NoteDelete from '@/components/buttons/NoteDelete'
+import NoteShare from '@/components/buttons/NoteShare'
 
 export default {
   name: 'NoteForm',
@@ -61,6 +72,11 @@ export default {
       code: '',
       notes: ''
     }
+  },
+
+  components: {
+    NoteDelete,
+    NoteShare
   },
 
   methods: {
