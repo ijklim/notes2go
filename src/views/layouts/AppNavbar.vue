@@ -8,19 +8,8 @@
 
     <!-- Icons -->
     <div class="mr-3">
-      <v-tooltip bottom>
-        <v-btn icon slot="activator" @click="deleteNote" v-if="showDeleteIcon">
-          <v-icon>delete</v-icon>
-        </v-btn>
-        <span>Delete</span>
-      </v-tooltip>
-
-      <v-tooltip bottom>
-        <v-btn icon slot="activator" @click="shareNote" v-if="showShareIcon">
-          <v-icon>share</v-icon>
-        </v-btn>
-        <span>Share</span>
-      </v-tooltip>
+      <note-delete />
+      <note-share />
     </div>
 
     <!-- Search bar: https://vuetifyjs.com/en/components/text-fields#main-toolbar -->
@@ -39,8 +28,17 @@
 </template>
 
 <script>
+import NoteDelete from '@/components/buttons/NoteDelete'
+import NoteShare from '@/components/buttons/NoteShare'
+
 export default {
   name: 'AppNavbar',
+
+  components: {
+    NoteDelete,
+    NoteShare
+  },
+
   props: {
     appName: String
   },
@@ -54,24 +52,10 @@ export default {
       searchText: ''
     }
   },
-  computed: {
-    showDeleteIcon () {
-      return this.$store.getters.isDataEditable && this.showShareIcon
-    },
-    showShareIcon () {
-      return this.$store.getters.linkViewOnly.length > 0
-    }
-  },
 
   methods: {
-    deleteNote () {
-      this.$store.dispatch('deleteNote')
-    },
     searchNote () {
       this.$store.dispatch('submitSearch', this.searchText)
-    },
-    shareNote () {
-      this.$store.dispatch('shareNote')
     }
   }
 }
