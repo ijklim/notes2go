@@ -1,39 +1,43 @@
 <template>
-  <v-flex xs12 sm10 mt-2>
-    <v-form>
-      <input type="hidden" name="id" :value="id" />
-      <v-text-field
-        hint="Code must be unique, can be used to retrieve your notes later"
-        label="Code"
-        persistent-hint
-        required
-        v-if="mode === 'edit'"
-        v-model="code"
-        :error-messages="errorsCode"
-        @input="onInputCode"
-      ></v-text-field>
-      <v-text-field
-        label="Notes"
-        multi-line
-        required
-        textarea
-        v-model="notes"
-        :error-messages="errorsNotes"
-        :rows="10"
-        @input="$v.notes.$touch()"
-      ></v-text-field>
-      <v-btn
-        block
-        class="success"
-        large
-        v-if="isSaveButtonVisible"
-        :disabled='isSaveButtonDisabled'
-        :loading="isSaving"
-        @click="submit"
-      >
-        Save
-      </v-btn>
-    </v-form>
+  <v-flex xs12 md10 mt-2>
+    <v-card class="elevation-3">
+      <v-card-text>
+        <v-form>
+          <input type="hidden" name="id" :value="id" />
+          <v-text-field
+            hint="Code must be unique, can be used to retrieve your notes later"
+            label="Code"
+            persistent-hint
+            required
+            v-if="mode === 'edit'"
+            v-model="code"
+            :error-messages="errorsCode"
+            @input="onInputCode"
+          ></v-text-field>
+          <v-text-field
+            label="Notes"
+            multi-line
+            required
+            textarea
+            v-model="notes"
+            :error-messages="errorsNotes"
+            :rows="10"
+            @input="$v.notes.$touch()"
+          ></v-text-field>
+          <v-btn
+            block
+            class="success"
+            large
+            v-if="isSaveButtonVisible"
+            :disabled='isSaveButtonDisabled'
+            :loading="isSaving"
+            @click="submit"
+          >
+            Save
+          </v-btn>
+        </v-form>
+      </v-card-text>
+    </v-card>
   </v-flex>
 </template>
 
