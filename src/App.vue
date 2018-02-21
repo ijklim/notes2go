@@ -30,20 +30,5 @@ export default {
 }
 </script>
 
-<style lang="scss">
-/* Hide side scrollbar if content does not need it */
-html {
-  overflow-y: auto; 
-}
-
-/* Change cursor to pointer for any clickable element */
-button:hover,
-.clickable:hover {
-  cursor: pointer;
-}
-
-/* Sweet Alert 2 */
-.swal2-container {
-  font-family: 'Open Sans';
-}
+<style>
 </style>

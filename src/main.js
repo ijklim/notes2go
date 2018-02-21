@@ -17,6 +17,7 @@ import makeAlert from './modules/alert'
 import './filters'
 
 import 'vuetify/dist/vuetify.min.css'
+import '@/assets/styles.css'
 
 Vue.use(Vuetify)
 Vue.use(VueSweetalert2)
