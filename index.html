@@ -26,11 +26,11 @@
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>
     <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
-  
 
-    
+
+
     <!-- App specifi info -->
-    <title>notes2go v1.1.0</title>
+    <title>notes2go v1.1.1</title>
     <meta name="apple-mobile-web-app-title" content="notes2go">
 
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">

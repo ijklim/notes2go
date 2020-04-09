@@ -5,7 +5,7 @@ node_modules/
 
 # Local configurations
 config/app.env.js
-.firebaserc
+.*
 
 # Editor directories and files
 .idea*

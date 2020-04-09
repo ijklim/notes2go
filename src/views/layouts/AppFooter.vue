@@ -1,7 +1,7 @@
 <template>
   <v-footer dark class="white--text pr-2">
     <v-spacer />
-    💖 Proudly brought to you by&nbsp;<a href="https://aiwebstudio.com" target="_blank">Active Improvement Web Studio</a>
+    💖 Proudly brought to you by&nbsp;<a href="https://ivan-lim.com" target="_blank">Ivan Lim</a>
   </v-footer>
 </template>
 

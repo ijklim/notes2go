@@ -1,6 +1,6 @@
 /**
- * alert v1.1.0
- * (c) 2018 Ivan Lim
+ * alert v1.1.1
+ * (c) 2020 Ivan Lim
  * @license MIT
  */
 const defaultProperties = {
